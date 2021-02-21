@@ -3,8 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Processing overview</title>
+    <!-- TODO This style stuff should go into a css file later once I'm comfortable with it. -->
+    <style>
+        .processingTask {
+            width: 500px;
+            border: 5px outset gray;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
+
+<!-- Första versionen:
+    - Klicka på en knapp för att köra ett cmd-kommando som sparas till databasen och tar några sekunder att köra
+    - Grunddesign på startsida
+    - Skriva in ett cmd-kommando i en ruta och trycka enter/på knapp för att köra
+
+    -->
+
 Index page!
+<div class="processingTask">
+    <form action="/your-name/" method="post">
+        <label for="your_name">Your name: </label>
+        <input id="your_name" type="text" name="your_name" value="{{ current_name }}">
+        <input type="submit" value="OK">
+    </form>
+</div>
 </body>
 </html>
