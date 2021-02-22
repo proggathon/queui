@@ -16,13 +16,21 @@
 <body>
 
 <!-- Första versionen:
-    - Klicka på en knapp för att köra ett cmd-kommando som sparas till databasen och tar några sekunder att köra
-    - Grunddesign på startsida
+    - Klicka på en knapp för att köra ett cmd-kommando som sparas till databasen och tar några sekunder att köra -KLART!
+    - Lista alla tasks som är aktiva och slutförda
     - Skriva in ett cmd-kommando i en ruta och trycka enter/på knapp för att köra
 
     -->
 
 Index page!
+<div>
+<form action="{% url 'processing:start_task' %}" method="post">
+    <!-- Token for being able to post forms. -->
+    {% csrf_token %}
+    <button type="submit" name="task_button" >Press to run a lame task</button>
+</form>
+</div>
+
 <div class="processingTask">
     <form action="/your-name/" method="post">
         <label for="your_name">Your name: </label>

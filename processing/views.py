@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse
 from .models import ProcessingTask
+from django.http import HttpResponse
 
 import subprocess
 import threading
@@ -19,16 +20,15 @@ def start_processing():
     pass
 
 
-def run_task(cmd_call):
-    subprocess.check_call(cmd_call)
+def run_task(task):
+    subprocess.check_call(task.call)
+    task.is_done = True
+    task.save()
 
 
-def add_task():
+def add_task(request):  # TODO Can we get rid of the need to have the request arg here?
     # Get last position in queue.
     tasks = ProcessingTask.objects.order_by('-position')
-    print("TYPE OF THING")
-    print(type(tasks.first()))
-    print(tasks)
     current_queue_length = tasks.first().position
     print("Suggested pos: " + str(current_queue_length + 1))
 
@@ -37,16 +37,14 @@ def add_task():
     task.title = "Just another task"
     task.added_by = "Mikael"
     task.position = current_queue_length + 1
-    task.call = "python C:/utveckling/Django/queue_gui/print_tet.py TaskID: " + str(task.position)
+    task.call = "python C:/utveckling/Django/queue_gui/print_tet.py TaskID:" + str(task.position)
     task.save()
 
-    # Start the task (nevermind the queue position right now).
-    print("task.call")
-    print(task.call)
-    print(type(task.call))
-    thread = threading.Thread(target=run_task, args=[task.call])
-    thread.setDaemon(True)
+    # Start the task (nevermind the queue position right now).  # TODO This should be moved to run_task()
+    thread = threading.Thread(target=run_task, args=[task], daemon=True)
     thread.start()
+
+    return HttpResponse(str(task.position))  # TODO THis should probably be a JsonResponse later
 
 
 def index(request):
@@ -54,7 +52,7 @@ def index(request):
     task_list = ProcessingTask.objects.all()
     log_folder = "C:/utveckling/Django/queue_gui_processing"
 
-    add_task()
+    # add_task()
 
     # for task in task_list:
         # print(task)
