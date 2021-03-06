@@ -12,6 +12,12 @@
             text-align: center;
         }
     </style>
+
+    {% load static %}
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>
+    <script> var run_task_url = "{% url 'processing:start_task' %}"</script>
+    <script src="{% static 'processing/js/start_task.js' %}"></script>
+
 </head>
 <body>
 
@@ -21,10 +27,6 @@
     - Skriva in ett cmd-kommando i en ruta och trycka enter/på knapp för att köra
 
     -->
-
-<script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>
-{% load static %}
-<script src="{% static 'processing/js/start_task.js' %}"></script>
 
 Index page!
 <div>
@@ -37,7 +39,7 @@ Index page!
 
 <div>
     <button type="button" id="tsk_ajax" name="task_button_ajax" onclick="runTask()">
-        Press to hide this button with a js function</button>
+        Press to run a lame task dynamically</button>
 </div>
 
 <div class="processingTask">
