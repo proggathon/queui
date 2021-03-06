@@ -52,10 +52,4 @@ def index(request):
     task_list = ProcessingTask.objects.all()
     log_folder = "C:/utveckling/Django/queue_gui_processing"
 
-    # add_task()
-
-    # for task in task_list:
-        # print(task)
-        #subprocess.Popen("C:/utveckling/Django/queue_gui/print_tet.py", stdout=)
-
-    return render(request, 'processing/index.html')
+    return render(request, 'processing/index.html', {'start_text': "djangooo"})

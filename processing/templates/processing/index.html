@@ -22,6 +22,10 @@
 
     -->
 
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>
+{% load static %}
+<script src="{% static 'processing/js/start_task.js' %}"></script>
+
 Index page!
 <div>
 <form action="{% url 'processing:start_task' %}" method="post">
@@ -31,10 +35,15 @@ Index page!
 </form>
 </div>
 
+<div>
+    <button type="button" id="tsk_ajax" name="task_button_ajax" onclick="runTask()">
+        Press to hide this button with a js function</button>
+</div>
+
 <div class="processingTask">
     <form action="/your-name/" method="post">
         <label for="your_name">Your name: </label>
-        <input id="your_name" type="text" name="your_name" value="{{ current_name }}">
+        <input id="your_name" type="text" name="your_name" value="{{ start_text }}">
         <input type="submit" value="OK">
     </form>
 </div>
