@@ -43,11 +43,9 @@ Index page!
 </div>
 
 <div class="processingTask">
-    <form action="/your-name/" method="post">
-        <label for="your_name">Your name: </label>
-        <input id="your_name" type="text" name="your_name" value="{{ start_text }}">
-        <input type="submit" value="OK">
-    </form>
+    <label for="input_command">Some input: </label>
+    <input id="input_command" type="text" name="input_command" size="50" value="{{ start_text }}">
+    <input type="submit" value="OK" onclick="runTask()">
 </div>
 </body>
 </html>

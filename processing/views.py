@@ -3,6 +3,7 @@ from django.urls import reverse
 from .models import ProcessingTask
 from django.http import HttpResponse
 
+import json
 import subprocess
 import threading
 
@@ -31,6 +32,8 @@ def add_task(request):  # TODO Can we get rid of the need to have the request ar
     tasks = ProcessingTask.objects.order_by('-position')
     current_queue_length = tasks.first().position
     print("Suggested pos: " + str(current_queue_length + 1))
+    print(request.POST)
+    # print(json.loads(request.body))
 
     # Create new task.
     task = ProcessingTask()
@@ -52,4 +55,6 @@ def index(request):
     task_list = ProcessingTask.objects.all()
     log_folder = "C:/utveckling/Django/queue_gui_processing"
 
-    return render(request, 'processing/index.html', {'start_text': "djangooo"})
+    default_command = "python C:/utveckling/Django/queue_gui/print_tet.py whatevs"
+
+    return render(request, 'processing/index.html', {'start_text': default_command})
