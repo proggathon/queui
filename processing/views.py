@@ -27,7 +27,7 @@ def run_task(task):
     task.save()
 
 
-def add_task(request):  # TODO Can we get rid of the need to have the request arg here?
+def add_task(request):
     # Get last position in queue.
     tasks = ProcessingTask.objects.order_by('-position')
     current_queue_length = tasks.first().position
@@ -40,7 +40,8 @@ def add_task(request):  # TODO Can we get rid of the need to have the request ar
     task.title = "Just another task"
     task.added_by = "Mikael"
     task.position = current_queue_length + 1
-    task.call = "python C:/utveckling/Django/queue_gui/print_tet.py TaskID:" + str(task.position)
+    # task.call = "python C:/utveckling/Django/queue_gui/print_tet.py TaskID:" + str(task.position)
+    task.call = request.POST['command']
     task.save()
 
     # Start the task (nevermind the queue position right now).  # TODO This should be moved to run_task()
