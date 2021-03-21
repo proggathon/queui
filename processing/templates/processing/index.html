@@ -5,17 +5,41 @@
     <title>Processing overview</title>
     <!-- TODO This style stuff should go into a css file later once I'm comfortable with it. -->
     <style>
-        .processingTask {
+        .newTask {
             width: 500px;
+            margin: 0 auto;
             border: 5px outset gray;
             padding: 10px;
             text-align: center;
+        }
+        .processingTask {
+            width: 500px;
+            margin: 0 auto;
+            border: 5px outset gray;
+            padding: 10px;
+            text-align: center;
+        }
+        hgroup{
+            display: inline-block;
+            text-align: center;
+            position: relative;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            border: 5px solid #fff;
+            padding: .5em 3em;
+            background-color: rgba(0,0,0,.2);
+            z-index: 2;
         }
     </style>
 
     {% load static %}
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>
-    <script> var run_task_url = "{% url 'processing:start_task' %}"</script>
+    <script>
+        var run_task_url = "{% url 'processing:start_task' %}"
+        var get_finished_url = "{% url 'processing:get_finished_tasks' %}"
+    </script>
     <script src="{% static 'processing/js/start_task.js' %}"></script>
 
 </head>
@@ -24,28 +48,28 @@
 <!-- Första versionen:
     - Klicka på en knapp för att köra ett cmd-kommando som sparas till databasen och tar några sekunder att köra -KLART!
     - Lista alla tasks som är aktiva och slutförda
-    - Skriva in ett cmd-kommando i en ruta och trycka enter/på knapp för att köra
-
+    - Skriva in ett cmd-kommando i en ruta och trycka enter/på knapp för att köra -KLART!
     -->
-
-Index page!
-<div>
-<form action="{% url 'processing:start_task' %}" method="post">
-    <!-- Token for being able to post forms. -->
-    {% csrf_token %}
-    <button type="submit" name="task_button" >Press to run a lame task</button>
-</form>
-</div>
-
-<div>
-    <button type="button" id="tsk_ajax" name="task_button_ajax" onclick="runTask()">
-        Press to run a lame task dynamically</button>
-</div>
-
-<div class="processingTask">
-    <label for="input_command">Some input: </label>
+<hgroup>
+    <h2>Upcoming tasks</h2>
+</hgroup>
+<div class="newTask">
+    <label for="input_command">Command </label>
     <input id="input_command" type="text" name="input_command" size="50" value="{{ start_text }}">
     <input type="submit" value="Process" onclick="runTask()">
 </div>
+<div class="processingTask">
+    List of queued tasks...
+</div>
+
+<hgroup>
+    <h2>Finished tasks</h2>
+</hgroup>
+<div class="finishedTasks">
+    <script src="{% static 'processing/js/get_finished_tasks.js' %}"></script>
+    <div id="finished_task"></div>
+</div>
+
+
 </body>
 </html>

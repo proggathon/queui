@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse
 from .models import ProcessingTask
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 import json
 import subprocess
@@ -25,14 +25,13 @@ def run_task(task):
     subprocess.check_call(task.call)
     task.is_done = True
     task.save()
+    print("Finished task " + str(task.position))
 
 
 def add_task(request):
     # Get last position in queue.
     tasks = ProcessingTask.objects.order_by('-position')
     current_queue_length = tasks.first().position
-    print("Suggested pos: " + str(current_queue_length + 1))
-    print(request.POST)
     # print(json.loads(request.body))
 
     # Create new task.
@@ -49,6 +48,10 @@ def add_task(request):
     thread.start()
 
     return HttpResponse(str(task.position))  # TODO THis should probably be a JsonResponse later
+
+
+def get_finished_tasks(request):
+    return JsonResponse({'test': "ajjeman"})
 
 
 def index(request):

@@ -2,7 +2,7 @@
 let cookie = document.cookie
 let csrfToken = cookie.substring(cookie.indexOf('=') + 1)
 
-function runTask() { // TODO Can we pass a command variable to this function?
+function runTask() {
     // Get input variable.
     var input_command = document.getElementById('input_command').value;
 
