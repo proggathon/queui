@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from .models import ProcessingTask
 from django.http import HttpResponse, JsonResponse
+from django.core.serializers import serialize
 
 import json
 import subprocess
@@ -51,7 +52,19 @@ def add_task(request):
 
 
 def get_finished_tasks(request):
-    return JsonResponse({'test': "ajjeman"})
+    # Get all finished tasks from database.
+    finished_tasks = ProcessingTask.objects.filter(is_done=True)
+
+    # Temporary prints.
+    print("Fetched " + str(len(finished_tasks)) + " finished tasks.")
+    print("type(finished_tasks) " + str(type(finished_tasks)))
+    print("type(finished_tasks[0]) " + str(type(finished_tasks[0])))
+
+    # Serialize the task objects as json.
+    finished_tasks_json = serialize("json", finished_tasks)
+
+    # Pass them as an HttpResponse (JsonResponse would try to serialize the variable again).
+    return HttpResponse(finished_tasks_json, content_type="application/json")
 
 
 def index(request):
