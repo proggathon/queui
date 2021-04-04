@@ -39,8 +39,10 @@
     <script>
         var run_task_url = "{% url 'processing:start_task' %}"
         var get_finished_url = "{% url 'processing:get_finished_tasks' %}"
+        var on_off_url = "{% url 'processing:on_off_switch' %}"
     </script>
     <script src="{% static 'processing/js/start_task.js' %}"></script>
+    <script src="{% static 'processing/js/on_off_switch.js' %}"></script>
 
 </head>
 <body>
@@ -50,6 +52,13 @@
     - Lista alla tasks som är aktiva och slutförda
     - Skriva in ett cmd-kommando i en ruta och trycka enter/på knapp för att köra -KLART!
     -->
+
+<hgroup>
+    <input id="on_off_button" type="submit" value="Switch" onclick="switchOnOff()">
+</hgroup>
+<div>
+
+</div>
 <hgroup>
     <h2>Upcoming tasks</h2>
 </hgroup>

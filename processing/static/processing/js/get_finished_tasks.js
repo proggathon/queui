@@ -1,13 +1,14 @@
 
 function greatSuccess(data) {
-    document.getElementById("finished_task").append(data)
-    console.log("Katten")
     //console.log(data.finished_tasks)
 
     for (var i = 0; i < data.length; i++) {
-        var obj = data[i]
-        console.log(obj)
+        var task = data[i]
+        //console.log(task)
 
+        var value = task["fields"]["call"]
+        document.getElementById("finished_task").append(value)
+        document.getElementById("finished_task").append("\n")
     }
 }
 
@@ -16,6 +17,5 @@ $.ajax({
     type: "GET",
     success: function(data) {
         greatSuccess(data)
-        //document.getElementById("finished_task").append("haha")
     }
 })
