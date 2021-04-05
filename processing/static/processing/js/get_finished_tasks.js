@@ -6,9 +6,14 @@ function greatSuccess(data) {
         var task = data[i]
         //console.log(task)
 
-        var value = task["fields"]["call"]
-        document.getElementById("finished_task").append(value)
-        document.getElementById("finished_task").append("\n")
+        var title = task["fields"]["title"]
+        var addedBy = task["fields"]["added_by"]
+        var call = task["fields"]["call"]
+
+        var node = document.createElement('div') // Maybe there's a better type than div for this one...
+        node.className = "processingTask"
+        node.innerText = call
+        document.getElementById("finishedTasks").appendChild(node)
     }
 }
 

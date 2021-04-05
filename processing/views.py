@@ -63,10 +63,10 @@ def run_task(task):
     print("Running a task!!")
     try:
         subprocess.check_call(task.call)
-    except: #Exception as e:
+    except Exception as e:
         print("Task " + task.id + " failed.")
         print(task.call)
-        #print(e)
+        print(e)
     task.is_done = True
     task.save()
     print("Finished task " + str(task.position))
