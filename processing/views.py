@@ -77,7 +77,10 @@ def run_task(task):
     task.is_done = True
     task.save()
     print("Finished task " + str(task.position))
-    check_next_task()
+
+    global server_running
+    if server_running:
+        check_next_task()
 
 
 def add_task(request):

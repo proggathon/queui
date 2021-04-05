@@ -1,6 +1,24 @@
 
-function greatSuccess(data, listToPopulate) {
-    //console.log(data.finished_tasks)
+function pollTasks() {
+    $.ajax({
+        url: get_queued_url,
+        type: "GET",
+        success: function(data) {
+            fillTaskList(data, "queuedTasks")
+        },
+    })
+
+    $.ajax({
+        url: get_finished_url,
+        type: "GET",
+        success: function(data) {
+            fillTaskList(data, "finishedTasks")
+        },
+    })
+}
+
+function fillTaskList(data, listToPopulate) {
+    document.getElementById(listToPopulate).innerHTML = ""
 
     for (var i = 0; i < data.length; i++) {
         var task = data[i]
@@ -29,21 +47,5 @@ function greatSuccess(data, listToPopulate) {
     }
 }
 
-
-// TODO Schedule these getters with a time interval.
-$.ajax({
-    url: get_queued_url,
-    type: "GET",
-    success: function(data) {
-        greatSuccess(data, "queuedTasks")
-    }
-})
-
-$.ajax({
-    url: get_finished_url,
-    type: "GET",
-    success: function(data) {
-        greatSuccess(data, "finishedTasks")
-    }
-})
-
+// Start the polling of tasks with a 1000 millisecond interval.
+var threadInterval = setInterval(pollTasks, 1000)
