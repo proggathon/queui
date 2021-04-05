@@ -6,7 +6,7 @@
     <!-- TODO This style stuff should go into a css file later once I'm comfortable with it. -->
     <style>
         .processingTask {
-            width: 500px;
+            width: 800px;
             margin: 0 auto;
             border: 5px outset gray;
             padding: 10px;
@@ -31,6 +31,20 @@
             cursor: pointer;
             text-align: center;
         }
+        .taskTitle {
+            font-weight: bold;
+            text-align: left;
+        }
+        .taskCall {
+            text-align: left;
+            font-weight: normal;
+            font-family: "Inconsolata", monospace;
+            font-size: small;
+        }
+        .taskAddedBy {
+            text-align: left;
+            font-style: italic;
+        }
     </style>
 
     {% load static %}
@@ -47,12 +61,6 @@
 
 </head>
 <body>
-
-<!-- Första versionen:
-    - Klicka på en knapp för att köra ett cmd-kommando som sparas till databasen och tar några sekunder att köra -KLART!
-    - Lista alla tasks som är aktiva och slutförda -KLART!
-    - Skriva in ett cmd-kommando i en ruta och trycka enter/på knapp för att köra -KLART!
-    -->
 
 <hgroup>
     <input id="on_off_button" type="submit" value="Switch" onclick="switchOnOff()">
@@ -80,7 +88,6 @@
 </hgroup>
 <div id="finishedTasks">
 </div>
-
 
 </body>
 </html>

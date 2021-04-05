@@ -97,7 +97,7 @@ def add_task(request):
 
 def get_finished_tasks(request):
     # Get all finished tasks from database.
-    finished_tasks = ProcessingTask.objects.filter(is_done=True)
+    finished_tasks = ProcessingTask.objects.filter(is_done=True).order_by('-position')
 
     # Serialize the task objects as json.
     finished_tasks_json = serialize("json", finished_tasks)
