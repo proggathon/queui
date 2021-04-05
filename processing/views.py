@@ -59,6 +59,13 @@ def switch_processing(request):
     return HttpResponse(server_running)
 
 
+def check_processing(request):
+    """Just return whether server is running or not."""
+    global server_running
+
+    return HttpResponse(server_running)
+
+
 def run_task(task):
     print("Running a task!!")
     try:
