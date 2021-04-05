@@ -15,5 +15,8 @@ function runTask() {
         headers: {
            'X-CSRFToken': csrfToken
          },
+        complete: function(data) {
+            pollTasks()
+        },
     })
 }

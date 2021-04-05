@@ -19,6 +19,8 @@ class ProcessingTask(models.Model):
     # The command line call.
     call = models.CharField(max_length=8191)  # Max length chosen from Windows cmd max call length.
 
+    # TODO Add timestamp of creation and completion.
+
     def __str__(self):
         message = self.title + ", Position: " + str(self.position)
         return message

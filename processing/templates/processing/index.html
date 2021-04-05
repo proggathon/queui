@@ -61,9 +61,9 @@
         var on_off_url = "{% url 'processing:on_off_switch' %}"
         var poll_status_url = "{% url 'processing:poll_status' %}"
     </script>
+    <script src="{% static 'processing/js/get_tasks.js' %}"></script>
     <script src="{% static 'processing/js/start_task.js' %}"></script>
     <script src="{% static 'processing/js/on_off_switch.js' %}"></script>
-    <script src="{% static 'processing/js/get_tasks.js' %}"></script>
 
 </head>
 <body>
@@ -75,18 +75,19 @@
 
 </div>
 <hgroup>
-    <h2>Upcoming tasks</h2>
+    <h2>Currently processing</h2>
 </hgroup>
-<div class="processingTask">
-    <label for="input_command">Command </label>
-    <input id="input_command" type="text" name="input_command" size="50" value="{{ start_text }}">
-    <input type="submit" value="Process" onclick="runTask()">
-</div>
+<div id="currentTask"></div>
 
 <hgroup>
     <h2>Queued tasks</h2>
 </hgroup>
 <div id="queuedTasks">
+</div>
+<div class="processingTask">
+    <label for="input_command">Command </label>
+    <input id="input_command" type="text" name="input_command" size="50" value="{{ start_text }}">
+    <input type="submit" value="Process" onclick="runTask()">
 </div>
 
 <hgroup>
