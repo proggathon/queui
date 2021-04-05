@@ -38,10 +38,12 @@
     <script>
         var run_task_url = "{% url 'processing:start_task' %}"
         var get_finished_url = "{% url 'processing:get_finished_tasks' %}"
+        var get_queued_url = "{% url 'processing:get_queued_tasks' %}"
         var on_off_url = "{% url 'processing:on_off_switch' %}"
     </script>
     <script src="{% static 'processing/js/start_task.js' %}"></script>
     <script src="{% static 'processing/js/on_off_switch.js' %}"></script>
+    <script src="{% static 'processing/js/get_tasks.js' %}"></script>
 
 </head>
 <body>
@@ -66,15 +68,17 @@
     <input id="input_command" type="text" name="input_command" size="50" value="{{ start_text }}">
     <input type="submit" value="Process" onclick="runTask()">
 </div>
-<div class="processingTask">
-    List of queued tasks...
+
+<hgroup>
+    <h2>Queued tasks</h2>
+</hgroup>
+<div id="queuedTasks">
 </div>
 
 <hgroup>
     <h2>Finished tasks</h2>
 </hgroup>
 <div id="finishedTasks">
-    <script src="{% static 'processing/js/get_finished_tasks.js' %}"></script>
 </div>
 
 

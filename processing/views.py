@@ -106,6 +106,17 @@ def get_finished_tasks(request):
     return HttpResponse(finished_tasks_json, content_type="application/json")
 
 
+def get_queued_tasks(request):
+    # Get all queued (non-finished) tasks from database.
+    finished_tasks = ProcessingTask.objects.filter(is_done=False)
+
+    # Serialize the task objects as json.
+    queued_tasks_json = serialize("json", finished_tasks)
+
+    # Pass them as an HttpResponse (JsonResponse would try to serialize the variable again).
+    return HttpResponse(queued_tasks_json, content_type="application/json")
+
+
 def index(request):
     print("Entering index function")
     task_list = ProcessingTask.objects.all()
