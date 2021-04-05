@@ -31,6 +31,9 @@
             cursor: pointer;
             text-align: center;
         }
+        #onOffGroup {
+            cursor: pointer;
+        }
         .taskTitle {
             font-weight: bold;
             text-align: left;
@@ -65,8 +68,8 @@
 </head>
 <body>
 
-<hgroup id="on_off_group">
-    <input id="on_off_button" type="submit" value="Switch" onclick="switchOnOff()">
+<hgroup id="onOffGroup" onclick="switchOnOff()">
+    <h2 id="onOffButton">Status...</h2>
 </hgroup>
 <div>
 

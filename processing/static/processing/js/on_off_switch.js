@@ -23,11 +23,11 @@ function checkProcessing(data) {
     var status = data // TODO I think this is a string now. Would be better if it was actually a bool.
 
     if (status == "True") {
-        document.getElementById("on_off_button").value = "Running"
-        document.getElementById("on_off_group").style.backgroundColor = "lightgreen"
+        document.getElementById("onOffButton").innerText = "Running"
+        document.getElementById("onOffGroup").style.backgroundColor = "lightgreen"
     }
     else {
-        document.getElementById("on_off_button").value = "Paused"
-        document.getElementById("on_off_group").style.backgroundColor = "orange"
+        document.getElementById("onOffButton").innerText = "Paused"
+        document.getElementById("onOffGroup").style.backgroundColor = "orange"
     }
 }
