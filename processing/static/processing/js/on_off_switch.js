@@ -10,6 +10,7 @@ $.ajax({
 
 function switchOnOff() {
 
+    // TODO Wrap this in a time itnerval too
     $.ajax({
         url: on_off_url,
         type: "GET",
@@ -30,4 +31,5 @@ function checkProcessing(data) {
         document.getElementById("onOffButton").innerText = "Paused"
         document.getElementById("onOffGroup").style.backgroundColor = "orange"
     }
+    // TODO Add idle state
 }

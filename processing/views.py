@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse
-from .models import ProcessingTask
+from .models import ProcessingTask, ProcessingStatus
 from django.http import HttpResponse, JsonResponse
 from django.core.serializers import serialize
 
@@ -9,7 +9,7 @@ import subprocess
 import threading
 
 # Reveals whether the server is running. TODO Is there a better way to handle this?
-server_running = False
+# server_running = False
 
 # I imagine we want a call_task() function and an on_task_finished() function here.
 # The latter would move the task from the database to a separate "finished" database, call the next task
@@ -30,14 +30,20 @@ def check_next_task():
         # Start the task.
         thread = threading.Thread(target=run_task, args=[task], daemon=True)
         thread.start()
+
+        # Set it to the currently running task.
+        status = ProcessingStatus.objects.get()
+        status.current_task = task
+        status.save()
     else:
         print("No tasks available")
 
 
 def start_processing():
     print("Starting processing")
-    global server_running
-    server_running = True
+    status = ProcessingStatus.objects.get()
+    status.is_running = True
+    status.save()
 
     # Start next task in processing queue.
     check_next_task()
@@ -45,25 +51,28 @@ def start_processing():
 
 def pause_processing():
     print("Pausing processing")
-    global server_running
-    server_running = False
+    status = ProcessingStatus.objects.get()
+    status.is_running = False
+    status.save()
 
 
 def switch_processing(request):
-    global server_running
-    if server_running:
+    status = ProcessingStatus.objects.get()
+    if status.is_running:
         pause_processing()
     else:
         start_processing()
 
-    return HttpResponse(server_running)
+    # Get status again as it has probably changed.
+    status = ProcessingStatus.objects.get()
+    return HttpResponse(status.is_running)
 
 
 def check_processing(request):
     """Just return whether server is running or not."""
-    global server_running
+    status = ProcessingStatus.objects.get()
 
-    return HttpResponse(server_running)
+    return HttpResponse(status.is_running)
 
 
 def run_task(task):
@@ -78,8 +87,12 @@ def run_task(task):
     task.save()
     print("Finished task " + str(task.position))
 
-    global server_running
-    if server_running:
+    # Remove from status.
+    status = ProcessingStatus.objects.get()
+    status.current_task = None
+    status.save()
+
+    if status.is_running:
         check_next_task()
 
 
@@ -98,11 +111,27 @@ def add_task(request):
     task.call = request.POST['command']
     task.save()
 
-    global server_running
-    if server_running:
+    status = ProcessingStatus.objects.get()
+    if status.is_running:
         check_next_task()
 
     return HttpResponse(str(task.position))  # TODO THis should probably be a JsonResponse later
+
+
+def get_current_task(request):
+    # Get current task from database.
+    current_task = ProcessingStatus.objects.get().current_task
+
+    if not current_task:
+        # Create an empty json element.
+        current_task_json = serialize("json", [])
+        print("current empty task")
+    else:
+        # Serialize the task object as json.
+        current_task_json = serialize("json", [current_task])
+        print("current task: " + str(current_task.pk))
+
+    return HttpResponse(current_task_json, content_type="application/json")
 
 
 def get_finished_tasks(request):
@@ -129,8 +158,11 @@ def get_queued_tasks(request):
 
 def index(request):
     print("Entering index function")
+    print("server running ", ProcessingStatus.objects.get().is_running)
     task_list = ProcessingTask.objects.all()
     log_folder = "C:/utveckling/Django/queue_gui_processing"
+
+    # TODO Maybe check if a ProcessingStatus exists and create one if not.
 
     default_command = "python C:/utveckling/Django/queue_gui/print_tet.py whatevs"
 

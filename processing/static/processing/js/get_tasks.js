@@ -1,6 +1,14 @@
 
 function pollTasks() {
     $.ajax({
+        url: get_current_url,
+        type: "GET",
+        success: function(data) {
+            fillTaskList(data, "currentTask")
+        },
+    })
+
+    $.ajax({
         url: get_queued_url,
         type: "GET",
         success: function(data) {
@@ -18,6 +26,7 @@ function pollTasks() {
 }
 
 // Naive check if data has updated.
+// TODO This is not working as intended as it alternates between queued and finished tasks.
 var previousData = null
 function checkTasksChanged(data) {
     if (data != previousData) {

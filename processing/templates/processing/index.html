@@ -56,6 +56,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>
     <script>
         var run_task_url = "{% url 'processing:start_task' %}"
+        var get_current_url = "{% url 'processing:get_current_task' %}"
         var get_finished_url = "{% url 'processing:get_finished_tasks' %}"
         var get_queued_url = "{% url 'processing:get_queued_tasks' %}"
         var on_off_url = "{% url 'processing:on_off_switch' %}"

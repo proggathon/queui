@@ -1,6 +1,5 @@
 from django.db import models
-
-# Create your models here.
+from django.utils import timezone
 
 
 class ProcessingTask(models.Model):
@@ -12,6 +11,7 @@ class ProcessingTask(models.Model):
 
     # Position in queue. No default value as this depends on queue length.
     position = models.PositiveIntegerField(unique=True)
+    # TODO Maybe the queue should be an own table, with ProcessingTasks as foreign keys.
 
     # Whether task is done.
     is_done = models.BooleanField(default=False)
@@ -19,8 +19,20 @@ class ProcessingTask(models.Model):
     # The command line call.
     call = models.CharField(max_length=8191)  # Max length chosen from Windows cmd max call length.
 
-    # TODO Add timestamp of creation and completion.
+    # Timestamp of task creation.
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    # Timestamp of task completion.
+    completed_date = models.DateTimeField(null=True)
 
     def __str__(self):
-        message = self.title + ", Position: " + str(self.position)
+        message = str(self.title) + ", Position: " + str(self.position)
         return message
+
+
+class ProcessingStatus(models.Model):
+    # Server status: running or paused.
+    is_running = models.BooleanField(default=False)
+
+    # The task that is currently being processed.
+    current_task = models.ForeignKey(ProcessingTask, null=True, on_delete=models.SET_NULL)
